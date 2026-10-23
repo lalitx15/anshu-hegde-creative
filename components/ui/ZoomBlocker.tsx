@@ -4,7 +4,7 @@ import { useEffect } from "react";
 
 export function ZoomBlocker() {
   useEffect(() => {
-    // Prevent pinch-to-zoom on iOS Safari gestures
+    // Prevent pinch-to-zoom on iOS Safari gestures without blocking native touch scrolling
     const preventGesture = (e: Event) => {
       e.preventDefault();
     };
@@ -13,26 +13,7 @@ export function ZoomBlocker() {
     document.addEventListener("gesturechange", preventGesture, { passive: false });
     document.addEventListener("gestureend", preventGesture, { passive: false });
 
-    // Prevent multi-touch pinch zoom
-    const preventMultiTouch = (e: TouchEvent) => {
-      if (e.touches.length > 1) {
-        e.preventDefault();
-      }
-    };
-    document.addEventListener("touchmove", preventMultiTouch, { passive: false });
-
-    // Prevent double tap to zoom
-    let lastTouchEnd = 0;
-    const preventDoubleTap = (e: TouchEvent) => {
-      const now = Date.now();
-      if (now - lastTouchEnd <= 300) {
-        e.preventDefault();
-      }
-      lastTouchEnd = now;
-    };
-    document.addEventListener("touchend", preventDoubleTap, false);
-
-    // Prevent desktop Ctrl + wheel zoom & Ctrl + +/- zoom
+    // Prevent desktop Ctrl + +/- zoom
     const preventKeyZoom = (e: KeyboardEvent) => {
       if (
         e.ctrlKey &&
@@ -46,6 +27,7 @@ export function ZoomBlocker() {
       }
     };
 
+    // Prevent desktop Ctrl + wheel zoom without intercepting standard wheel scrolling
     const preventWheelZoom = (e: WheelEvent) => {
       if (e.ctrlKey) {
         e.preventDefault();
@@ -59,8 +41,6 @@ export function ZoomBlocker() {
       document.removeEventListener("gesturestart", preventGesture);
       document.removeEventListener("gesturechange", preventGesture);
       document.removeEventListener("gestureend", preventGesture);
-      document.removeEventListener("touchmove", preventMultiTouch);
-      document.removeEventListener("touchend", preventDoubleTap);
       window.removeEventListener("keydown", preventKeyZoom);
       window.removeEventListener("wheel", preventWheelZoom);
     };

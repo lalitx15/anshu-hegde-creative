@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { motion, useScroll, useSpring } from "framer-motion";
 import { ArrowUp } from "lucide-react";
 
@@ -14,7 +14,7 @@ export function ScrollProgress() {
 
   return (
     <motion.div
-      className="fixed top-0 left-0 right-0 h-[3px] bg-gold-gradient z-50 origin-left shadow-[0_0_12px_rgba(240,203,94,0.8)]"
+      className="fixed top-0 left-0 right-0 h-[3px] bg-gold-gradient z-50 origin-left shadow-[0_0_12px_rgba(240,203,94,0.8)] pointer-events-none"
       style={{ scaleX }}
     />
   );
@@ -22,29 +22,51 @@ export function ScrollProgress() {
 
 export function ScrollToTop() {
   const [isVisible, setIsVisible] = useState(false);
-  const [scrollPercentage, setScrollPercentage] = useState(0);
+  const circleRef = useRef<SVGCircleElement>(null);
+  const visibleRef = useRef(false);
+
+  const radius = 20;
+  const circumference = 2 * Math.PI * radius;
 
   useEffect(() => {
-    const handleScroll = () => {
+    let ticking = false;
+
+    const updateScroll = () => {
       const scrollY = window.scrollY;
       const docHeight = document.documentElement.scrollHeight - window.innerHeight;
-      const progress = docHeight > 0 ? (scrollY / docHeight) * 100 : 0;
+      const progress = docHeight > 0 ? scrollY / docHeight : 0;
 
-      setScrollPercentage(progress);
-      setIsVisible(scrollY > 400);
+      // Update circle dashoffset directly without triggering React re-renders
+      if (circleRef.current) {
+        const offset = circumference - progress * circumference;
+        circleRef.current.style.strokeDashoffset = `${offset}`;
+      }
+
+      const shouldBeVisible = scrollY > 400;
+      if (shouldBeVisible !== visibleRef.current) {
+        visibleRef.current = shouldBeVisible;
+        setIsVisible(shouldBeVisible);
+      }
+
+      ticking = false;
+    };
+
+    const handleScroll = () => {
+      if (!ticking) {
+        window.requestAnimationFrame(updateScroll);
+        ticking = true;
+      }
     };
 
     window.addEventListener("scroll", handleScroll, { passive: true });
+    updateScroll();
+
     return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+  }, [circumference]);
 
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
-
-  const radius = 20;
-  const circumference = 2 * Math.PI * radius;
-  const strokeDashoffset = circumference - (scrollPercentage / 100) * circumference;
 
   if (!isVisible) return null;
 
@@ -68,6 +90,7 @@ export function ScrollToTop() {
           fill="none"
         />
         <circle
+          ref={circleRef}
           cx="24"
           cy="24"
           r={radius}
@@ -75,9 +98,9 @@ export function ScrollToTop() {
           strokeWidth="2.5"
           fill="none"
           strokeDasharray={circumference}
-          strokeDashoffset={strokeDashoffset}
+          strokeDashoffset={circumference}
           strokeLinecap="round"
-          className="transition-all duration-150 ease-out"
+          className="transition-all duration-75 ease-out"
         />
       </svg>
       <ArrowUp className="w-5 h-5 group-hover:-translate-y-0.5 transition-transform duration-200" />

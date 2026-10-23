@@ -23,25 +23,37 @@ export default function HomePage() {
       <GreenCtaBand />
 
       {/* 4. Three Image Cards on Gold Band (Gallery Preview) */}
-      <GalleryPreview />
+      <div className="section-content-visibility">
+        <GalleryPreview />
+      </div>
 
       {/* 5. Infinite Marquee Strips */}
-      <MarqueeStrips />
+      <div className="section-content-visibility">
+        <MarqueeStrips />
+      </div>
 
       {/* 6. Eight Services Scroller / Snap Carousel on Emerald */}
       <ServicesScroller />
 
       {/* 7. About Teaser + Quote + 3 Count-Up Stats on Gold */}
-      <Stats />
+      <div className="section-content-visibility">
+        <Stats />
+      </div>
 
       {/* 8. Latest Blog Feature on Emerald */}
-      <BlogPreview />
+      <div className="section-content-visibility">
+        <BlogPreview />
+      </div>
 
       {/* 9. Workshops Masterclasses Teaser on Gold */}
-      <WorkshopsPreview />
+      <div className="section-content-visibility">
+        <WorkshopsPreview />
+      </div>
 
       {/* 10. Contact Enquiries + Google Map on Emerald */}
-      <ContactSection />
+      <div className="section-content-visibility">
+        <ContactSection />
+      </div>
     </main>
   );
 }

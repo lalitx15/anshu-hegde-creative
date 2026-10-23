@@ -20,7 +20,6 @@ html {
   -webkit-text-size-adjust: 100%;
   -webkit-tap-highlight-color: transparent;
   overscroll-behavior-y: none;
-  scroll-behavior: smooth;
 }
 
 body {
@@ -172,4 +171,25 @@ input, textarea, select, button {
 .group:hover .animate-marquee-left,
 .group:hover .animate-marquee-right {
   animation-play-state: paused;
+}
+
+/* 60fps Optimization: Off-screen render containment */
+.section-content-visibility {
+  content-visibility: auto;
+  contain-intrinsic-size: 1px 750px;
+}
+
+/* Hardware accelerated transform compositing */
+.gpu-accelerated {
+  transform: translateZ(0);
+  backface-visibility: hidden;
+}
+
+/* Respect user's system reduced-motion preference */
+@media (prefers-reduced-motion: reduce) {
+  *, ::before, ::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
 }

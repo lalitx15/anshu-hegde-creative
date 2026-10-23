@@ -163,13 +163,20 @@ export function ServicesScroller() {
       }
     };
 
+    let resizeTimeout: NodeJS.Timeout;
+    const handleResize = () => {
+      clearTimeout(resizeTimeout);
+      resizeTimeout = setTimeout(updateScrollRange, 100);
+    };
+
     updateScrollRange();
-    window.addEventListener("resize", updateScrollRange);
+    window.addEventListener("resize", handleResize, { passive: true });
 
     const timer = setTimeout(updateScrollRange, 350);
     return () => {
-      window.removeEventListener("resize", updateScrollRange);
+      window.removeEventListener("resize", handleResize);
       clearTimeout(timer);
+      clearTimeout(resizeTimeout);
     };
   }, []);
 
@@ -232,7 +239,7 @@ export function ServicesScroller() {
               return (
                 <div
                   key={service.id}
-                  className="w-[280px] sm:w-[350px] lg:w-[380px] shrink-0 rounded-28 p-6 sm:p-8 bg-emerald-dark/90 border border-gold/35 hover:border-gold/75 backdrop-blur-md shadow-2xl flex flex-col justify-between transition-all duration-300 hover:-translate-y-2 group select-none"
+                  className="w-[280px] sm:w-[350px] lg:w-[380px] shrink-0 rounded-28 p-6 sm:p-8 bg-emerald-dark/95 border border-gold/35 hover:border-gold/75 shadow-2xl flex flex-col justify-between transition-all duration-300 hover:-translate-y-2 group select-none gpu-accelerated"
                 >
                   <div>
                     {/* Card Top: Icon & Big Number */}

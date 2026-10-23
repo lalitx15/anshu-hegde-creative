@@ -88,15 +88,15 @@ export function Hero({ onOpenBooking }: { onOpenBooking?: () => void }) {
               </span>
             </h1>
 
-            {/* Subtext with Blur Fade */}
+            {/* Subtext */}
             <motion.p
-              initial={{ opacity: 0, y: 20, filter: "blur(6px)" }}
-              animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-              transition={{ duration: 0.7, delay: 0.35 }}
+              initial={{ opacity: 0, y: 16 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.3 }}
               className="text-base sm:text-lg text-ink/75 max-w-xl leading-relaxed mb-9 font-normal"
             >
               Holistic, human-centric creative strategy crafted for ambitious
-              founders, leaders, and creators. We blend 15 years of television
+              founder, leader, and creator. We blend 15 years of television
               production rigor with 30+ years of empathetic mentorship to build
               unforgettable personal brands.
             </motion.p>

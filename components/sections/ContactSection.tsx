@@ -2,7 +2,6 @@
 
 import React, { useState } from "react";
 import { motion } from "framer-motion";
-import confetti from "canvas-confetti";
 import {
   Phone,
   Mail,
@@ -104,12 +103,15 @@ export function ContactSection({
 
       if (data.success) {
         setIsSubmitted(true);
-        confetti({
-          particleCount: 80,
-          spread: 70,
-          origin: { y: 0.6 },
-          colors: ["#F0CB5E", "#FBE38E", "#0B3B2C", "#EADFC8"],
-        });
+        import("canvas-confetti").then((module) => {
+          const confetti = module.default;
+          confetti({
+            particleCount: 60,
+            spread: 60,
+            origin: { y: 0.6 },
+            colors: ["#F0CB5E", "#FBE38E", "#0B3B2C", "#EADFC8"],
+          });
+        }).catch(() => {});
         showToast({
           type: "success",
           title: "Brief Sent Successfully",
@@ -195,7 +197,7 @@ export function ContactSection({
             {/* Phone Card */}
             <a
               href={`tel:${siteConfig.phoneRaw}`}
-              className="p-6 rounded-24 bg-emerald-dark/80 border border-gold/30 hover:border-gold/60 backdrop-blur-md transition-all group flex items-center gap-5 shadow-xl"
+              className="p-6 rounded-24 bg-emerald-dark/95 border border-gold/30 hover:border-gold/60 transition-all group flex items-center gap-5 shadow-xl"
             >
               <div className="w-12 h-12 rounded-full bg-emerald border border-gold/40 flex items-center justify-center text-gold group-hover:scale-110 transition-transform">
                 <Phone className="w-5 h-5" />
@@ -213,7 +215,7 @@ export function ContactSection({
             {/* Email Card */}
             <a
               href={`mailto:${siteConfig.email}`}
-              className="p-6 rounded-24 bg-emerald-dark/80 border border-gold/30 hover:border-gold/60 backdrop-blur-md transition-all group flex items-center gap-5 shadow-xl"
+              className="p-6 rounded-24 bg-emerald-dark/95 border border-gold/30 hover:border-gold/60 transition-all group flex items-center gap-5 shadow-xl"
             >
               <div className="w-12 h-12 rounded-full bg-emerald border border-gold/40 flex items-center justify-center text-gold group-hover:scale-110 transition-transform">
                 <Mail className="w-5 h-5" />
@@ -233,7 +235,7 @@ export function ContactSection({
               href={siteConfig.social.whatsapp}
               target="_blank"
               rel="noopener noreferrer"
-              className="p-6 rounded-24 bg-emerald-dark/80 border border-gold/30 hover:border-gold/60 backdrop-blur-md transition-all group flex items-center gap-5 shadow-xl"
+              className="p-6 rounded-24 bg-emerald-dark/95 border border-gold/30 hover:border-gold/60 transition-all group flex items-center gap-5 shadow-xl"
             >
               <div className="w-12 h-12 rounded-full bg-emerald border border-gold/40 flex items-center justify-center text-gold group-hover:scale-110 transition-transform">
                 <MessageCircle className="w-5 h-5" />
@@ -249,13 +251,13 @@ export function ContactSection({
             </a>
 
             {/* Studio Address Card */}
-            <div className="p-6 rounded-24 bg-emerald-dark/80 border border-gold/30 backdrop-blur-md flex items-start gap-5 shadow-xl">
+            <div className="p-6 rounded-24 bg-emerald-dark/95 border border-gold/30 flex items-start gap-5 shadow-xl">
               <div className="w-12 h-12 rounded-full bg-emerald border border-gold/40 flex items-center justify-center text-gold shrink-0 mt-0.5">
                 <MapPin className="w-5 h-5" />
               </div>
               <div>
                 <p className="text-xs uppercase tracking-wider text-gold font-medium mb-1">
-                  Private Studio Location
+                  Location
                 </p>
                 <p className="text-sm text-cream/80 leading-relaxed mb-3">
                   {siteConfig.address}

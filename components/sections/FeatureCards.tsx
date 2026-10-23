@@ -85,7 +85,6 @@ function InteractiveTrinityCard({
   const rotateX = useTransform(mouseYSpring, [-0.5, 0.5], ["10deg", "-10deg"]);
   const rotateY = useTransform(mouseXSpring, [-0.5, 0.5], ["-10deg", "10deg"]);
 
-  const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
   const [isHovered, setIsHovered] = useState(false);
 
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
@@ -99,7 +98,8 @@ function InteractiveTrinityCard({
 
     x.set(xPct);
     y.set(yPct);
-    setMousePos({ x: mouseX, y: mouseY });
+    cardRef.current.style.setProperty("--mouse-x", `${mouseX}px`);
+    cardRef.current.style.setProperty("--mouse-y", `${mouseY}px`);
   };
 
   const handleMouseEnter = () => {
@@ -133,14 +133,14 @@ function InteractiveTrinityCard({
         }}
         whileHover={{ scale: 1.025 }}
         transition={{ duration: 0.25 }}
-        className="relative group rounded-28 p-7 sm:p-9 bg-gradient-to-b from-white/95 via-white/85 to-marble-cream/90 border-2 border-white/80 shadow-gold-card hover:shadow-2xl hover:border-emerald/40 backdrop-blur-xl transition-shadow duration-500 flex flex-col justify-between overflow-hidden cursor-pointer"
+        className="relative group rounded-28 p-7 sm:p-9 bg-gradient-to-b from-white/95 via-white/85 to-marble-cream/90 border-2 border-white/80 shadow-gold-card hover:shadow-2xl hover:border-emerald/40 transition-shadow duration-500 flex flex-col justify-between overflow-hidden cursor-pointer gpu-accelerated"
       >
-        {/* Dynamic Cursor Spotlight Glare Effect */}
+        {/* Dynamic Cursor Spotlight Glare Effect via CSS Variables */}
         {isHovered && (
           <div
             className="pointer-events-none absolute inset-0 z-0 opacity-60 transition-opacity duration-300"
             style={{
-              background: `radial-gradient(circle 260px at ${mousePos.x}px ${mousePos.y}px, rgba(240, 203, 94, 0.35), transparent 75%)`,
+              background: "radial-gradient(circle 260px at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(240, 203, 94, 0.35), transparent 75%)",
             }}
           />
         )}

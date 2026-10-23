@@ -30,6 +30,26 @@ const audienceIcons: Record<string, React.ComponentType<{ className?: string }>>
 
 export default function WorkshopsPage() {
   const [selectedCohort, setSelectedCohort] = useState("Workshops & Masterclasses");
+  const videoRef = React.useRef<HTMLVideoElement>(null);
+
+  React.useEffect(() => {
+    const video = videoRef.current;
+    if (!video) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          video.play().catch(() => {});
+        } else {
+          video.pause();
+        }
+      },
+      { threshold: 0.25 }
+    );
+
+    observer.observe(video);
+    return () => observer.disconnect();
+  }, []);
 
   const scrollToWaitlist = (workshopTitle: string) => {
     setSelectedCohort(`Workshop: ${workshopTitle}`);
@@ -115,6 +135,97 @@ export default function WorkshopsPage() {
         <div className="absolute inset-0 gold-fluted-lines opacity-15 pointer-events-none" />
 
         <div className="max-w-[1320px] mx-auto px-5 sm:px-8 lg:px-16 relative z-10">
+          {/* Live Workshop in Action - Video Showcase */}
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+            className="mb-20 rounded-32 p-6 sm:p-10 bg-white/95 border-2 border-gold/50 shadow-2xl overflow-hidden relative gpu-accelerated"
+          >
+            {/* Gold top accent */}
+            <div className="absolute top-0 left-0 right-0 h-1.5 bg-gold-gradient" />
+
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
+              {/* Left: Video Player */}
+              <div className="lg:col-span-7">
+                <div className="relative rounded-24 overflow-hidden border-2 border-gold/40 shadow-xl bg-black aspect-video sm:aspect-[16/10] flex items-center justify-center group">
+                  <video
+                    ref={videoRef}
+                    src="/media/ok.mp4"
+                    poster="/media/IMG-20261022-WA0013.jpg"
+                    preload="metadata"
+                    loop
+                    muted
+                    playsInline
+                    controls
+                    className="w-full h-full object-cover rounded-24"
+                  />
+                  <div className="absolute top-4 left-4 pointer-events-none">
+                    <span className="px-3 py-1 rounded-full bg-emerald/90 text-gold text-xs font-semibold tracking-wider uppercase backdrop-blur-sm border border-gold/30">
+                      Live Studio Masterclass
+                    </span>
+                  </div>
+                </div>
+              </div>
+
+              {/* Right: Details & Curriculum Highlights */}
+              <div className="lg:col-span-5 flex flex-col justify-between space-y-5">
+                <div>
+                  <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-emerald/10 border border-emerald/20 text-emerald-dark mb-3">
+                    <Sparkles className="w-3.5 h-3.5 text-emerald" />
+                    <span className="text-xs font-semibold uppercase tracking-wider">
+                      Live Studio Atmosphere
+                    </span>
+                  </div>
+
+                  <h2 className="font-serif text-2xl sm:text-3xl font-bold text-ink mb-3 leading-snug">
+                    Experience The Masterclass in Action
+                  </h2>
+
+                  <p className="text-xs sm:text-sm text-ink/75 leading-relaxed mb-4">
+                    Watch Anshu Hegde conducting an intensive studio workshop. Our masterclasses combine 15 years of television broadcast discipline with 30+ years of compassionate mentorship, delivering hands-on guidance on stage poise, camera choreography, and executive gravitas.
+                  </p>
+
+                  <div className="space-y-2.5 pt-3 border-t border-ink/10">
+                    <div className="flex items-start gap-2.5 text-xs text-ink/80">
+                      <CheckCircle2 className="w-4 h-4 text-emerald shrink-0 mt-0.5" />
+                      <span><strong>Real-Time Camera Direction:</strong> Interactive screen playback, angle corrections, and poise adjustments.</span>
+                    </div>
+                    <div className="flex items-start gap-2.5 text-xs text-ink/80">
+                      <CheckCircle2 className="w-4 h-4 text-emerald shrink-0 mt-0.5" />
+                      <span><strong>Personalized Voice & Narrative Critique:</strong> Individual 1-on-1 assessment for every participating founder or creator.</span>
+                    </div>
+                    <div className="flex items-start gap-2.5 text-xs text-ink/80">
+                      <CheckCircle2 className="w-4 h-4 text-emerald shrink-0 mt-0.5" />
+                      <span><strong>Bangalore Cohort Immersion:</strong> In-person studio sessions curated for transformative personal brand impact.</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="pt-2">
+                  <a
+                    href={`https://wa.me/${siteConfig.whatsapp}?text=${encodeURIComponent(
+                      "Hi Anshu, I watched the workshop video on the website and want to reserve a seat in the upcoming Bangalore studio masterclass."
+                    )}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-block w-full sm:w-auto"
+                  >
+                    <Button
+                      variant="primary"
+                      size="md"
+                      className="w-full sm:w-auto"
+                      icon={<MessageCircle className="w-4 h-4" />}
+                    >
+                      Enquire / Reserve Cohort Seat
+                    </Button>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </motion.div>
+
           <div className="text-center max-w-xl mx-auto mb-16">
             <h2 className="font-serif text-3xl sm:text-5xl font-bold text-ink mb-4">
               Upcoming Cohort Schedules

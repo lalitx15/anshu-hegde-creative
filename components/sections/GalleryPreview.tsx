@@ -134,22 +134,14 @@ export function GalleryPreview() {
                   className="group relative w-[240px] sm:w-[280px] shrink-0 rounded-24 overflow-hidden bg-emerald-dark border-2 border-white/80 shadow-gold-card hover:border-emerald hover:shadow-2xl cursor-pointer flex flex-col justify-between transition-all duration-300 hover:-translate-y-1.5"
                 >
                   <div className="relative aspect-[9/14] w-full overflow-hidden bg-black">
-                    {reel.poster ? (
-                      <Image
-                        src={reel.poster}
-                        alt={reel.title}
-                        fill
-                        className="object-cover transition-transform duration-700 ease-out group-hover:scale-108"
-                        sizes="280px"
-                      />
-                    ) : (
-                      <video
-                        src={reel.src}
-                        muted
-                        playsInline
-                        className="w-full h-full object-cover"
-                      />
-                    )}
+                    <Image
+                      src={reel.poster || "/media/IMG-20261022-WA0012.jpg"}
+                      alt={reel.title}
+                      fill
+                      loading="lazy"
+                      className="object-cover transition-transform duration-700 ease-out group-hover:scale-108"
+                      sizes="(max-width: 640px) 240px, 280px"
+                    />
 
                     {/* Gradient Vignette */}
                     <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
@@ -162,7 +154,7 @@ export function GalleryPreview() {
                     </div>
 
                     {/* Badge */}
-                    <div className="absolute top-3 right-3 bg-black/75 backdrop-blur-md px-2.5 py-1 rounded-full text-[10px] uppercase font-bold text-gold tracking-wider flex items-center gap-1 border border-gold/30">
+                    <div className="absolute top-3 right-3 bg-black/85 px-2.5 py-1 rounded-full text-[10px] uppercase font-bold text-gold tracking-wider flex items-center gap-1 border border-gold/30">
                       <Film className="w-3 h-3" />
                       Reel {idx + 1}
                     </div>
@@ -193,22 +185,14 @@ export function GalleryPreview() {
                   className="group relative w-[240px] sm:w-[280px] shrink-0 rounded-24 overflow-hidden bg-emerald-dark border-2 border-white/80 shadow-gold-card hover:border-emerald hover:shadow-2xl cursor-pointer flex flex-col justify-between transition-all duration-300 hover:-translate-y-1.5"
                 >
                   <div className="relative aspect-[9/14] w-full overflow-hidden bg-black">
-                    {reel.poster ? (
-                      <Image
-                        src={reel.poster}
-                        alt={reel.title}
-                        fill
-                        className="object-cover transition-transform duration-700 ease-out group-hover:scale-108"
-                        sizes="280px"
-                      />
-                    ) : (
-                      <video
-                        src={reel.src}
-                        muted
-                        playsInline
-                        className="w-full h-full object-cover"
-                      />
-                    )}
+                    <Image
+                      src={reel.poster || "/media/IMG-20261022-WA0012.jpg"}
+                      alt={reel.title}
+                      fill
+                      loading="lazy"
+                      className="object-cover transition-transform duration-700 ease-out group-hover:scale-108"
+                      sizes="(max-width: 640px) 240px, 280px"
+                    />
 
                     <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
 
@@ -218,7 +202,7 @@ export function GalleryPreview() {
                       </div>
                     </div>
 
-                    <div className="absolute top-3 right-3 bg-black/75 backdrop-blur-md px-2.5 py-1 rounded-full text-[10px] uppercase font-bold text-gold tracking-wider flex items-center gap-1 border border-gold/30">
+                    <div className="absolute top-3 right-3 bg-black/85 px-2.5 py-1 rounded-full text-[10px] uppercase font-bold text-gold tracking-wider flex items-center gap-1 border border-gold/30">
                       <Film className="w-3 h-3" />
                       Reel {idx + 1}
                     </div>
@@ -299,12 +283,12 @@ export function GalleryPreview() {
                     </div>
 
                     {/* Category Pill */}
-                    <div className="absolute top-3.5 left-3.5 bg-emerald/90 backdrop-blur-md border border-gold/40 text-gold text-[10px] uppercase font-semibold tracking-wider px-3 py-1 rounded-full shadow-md">
+                    <div className="absolute top-3.5 left-3.5 bg-emerald/95 border border-gold/40 text-gold text-[10px] uppercase font-semibold tracking-wider px-3 py-1 rounded-full shadow-md">
                       {item.category}
                     </div>
                   </div>
 
-                  <div className="p-4 bg-white/90 backdrop-blur-sm border-t border-ink/10">
+                  <div className="p-4 bg-white/95 border-t border-ink/10">
                     <h4 className="font-serif text-base font-bold text-ink group-hover:text-emerald-dark transition-colors truncate">
                       {item.title}
                     </h4>
@@ -342,12 +326,12 @@ export function GalleryPreview() {
                       </div>
                     </div>
 
-                    <div className="absolute top-3.5 left-3.5 bg-emerald/90 backdrop-blur-md border border-gold/40 text-gold text-[10px] uppercase font-semibold tracking-wider px-3 py-1 rounded-full shadow-md">
+                    <div className="absolute top-3.5 left-3.5 bg-emerald/95 border border-gold/40 text-gold text-[10px] uppercase font-semibold tracking-wider px-3 py-1 rounded-full shadow-md">
                       {item.category}
                     </div>
                   </div>
 
-                  <div className="p-4 bg-white/90 backdrop-blur-sm border-t border-ink/10">
+                  <div className="p-4 bg-white/95 border-t border-ink/10">
                     <h4 className="font-serif text-base font-bold text-ink group-hover:text-emerald-dark transition-colors truncate">
                       {item.title}
                     </h4>

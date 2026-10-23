@@ -51,10 +51,27 @@ export function Header({
   const { isInstalled, triggerInstall } = useInstallPrompt();
 
   useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 20);
+    let ticking = false;
+    let lastScrolled = false;
+
+    const updateScrolled = () => {
+      const scrolled = window.scrollY > 20;
+      if (scrolled !== lastScrolled) {
+        lastScrolled = scrolled;
+        setIsScrolled(scrolled);
+      }
+      ticking = false;
     };
+
+    const handleScroll = () => {
+      if (!ticking) {
+        window.requestAnimationFrame(updateScrolled);
+        ticking = true;
+      }
+    };
+
     window.addEventListener("scroll", handleScroll, { passive: true });
+    updateScrolled();
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
