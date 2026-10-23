@@ -96,7 +96,7 @@ export function Hero({ onOpenBooking }: { onOpenBooking?: () => void }) {
               className="text-base sm:text-lg text-ink/75 max-w-xl leading-relaxed mb-9 font-normal"
             >
               Holistic, human-centric creative strategy crafted for ambitious
-              founder, leader, and creator. We blend 15 years of television
+              founders, leaders, and creators. We blend 15 years of television
               production rigor with 30+ years of empathetic mentorship to build
               unforgettable personal brands.
             </motion.p>
